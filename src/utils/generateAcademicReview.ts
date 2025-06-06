@@ -54,13 +54,21 @@ const academicIconMap = {
     "GOOD_POINT": "✅"
 } as const;
 
-// カテゴリの日本語マップ
-const categoryMap = {
+// カテゴリマップ（言語別）
+const categoryMapJa = {
     "ACCURACY": "学術的正確性",
     "STRUCTURE": "構成",
     "NOVELTY": "新規性",
     "FORMAT": "形式",
     "WRITING": "文章品質"
+} as const;
+
+const categoryMapEn = {
+    "ACCURACY": "Academic Accuracy",
+    "STRUCTURE": "Structure",
+    "NOVELTY": "Novelty",
+    "FORMAT": "Format",
+    "WRITING": "Writing Quality"
 } as const;
 
 // 優先度順序
@@ -133,6 +141,10 @@ export const generateAcademicReviewText: GenerateReviewCommentFn = async (params
  */
 export const generateAcademicReviewObject: GenerateReviewCommentFn = async (params) => {
     const { modelCode, userPrompt } = params;
+
+    // プロンプトから言語を判定（Japanese が含まれていれば日本語、それ以外は英語）
+    const isJapanese = userPrompt.includes('Japanese');
+    const categoryMap = isJapanese ? categoryMapJa : categoryMapEn;
 
     try {
         const { object } = await withRetry(

@@ -49,13 +49,20 @@ const academicIconMap = {
     "SUGGESTION": "💡",
     "GOOD_POINT": "✅"
 };
-// カテゴリの日本語マップ
-const categoryMap = {
+// カテゴリマップ（言語別）
+const categoryMapJa = {
     "ACCURACY": "学術的正確性",
     "STRUCTURE": "構成",
     "NOVELTY": "新規性",
     "FORMAT": "形式",
     "WRITING": "文章品質"
+};
+const categoryMapEn = {
+    "ACCURACY": "Academic Accuracy",
+    "STRUCTURE": "Structure",
+    "NOVELTY": "Novelty",
+    "FORMAT": "Format",
+    "WRITING": "Writing Quality"
 };
 // 優先度順序
 const academicPriorityOrder = {
@@ -110,6 +117,9 @@ exports.generateAcademicReviewText = generateAcademicReviewText;
  */
 const generateAcademicReviewObject = (params) => __awaiter(void 0, void 0, void 0, function* () {
     const { modelCode, userPrompt } = params;
+    // プロンプトから言語を判定（Japanese が含まれていれば日本語、それ以外は英語）
+    const isJapanese = userPrompt.includes('Japanese');
+    const categoryMap = isJapanese ? categoryMapJa : categoryMapEn;
     try {
         const { object } = yield withRetry((...args_1) => __awaiter(void 0, [...args_1], void 0, function* (attempt = 1) {
             return yield (0, ai_1.generateObject)({

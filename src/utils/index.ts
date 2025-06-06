@@ -171,7 +171,7 @@ export function createReviewPrompt({
     language: string;
 }): string {
     return `
-あなたは理工学部の経験豊富な教員です。
+You are an experienced professor in the School of Science and Engineering.
 Please review the code changes in the following Pull Request and point out potential problems or areas for improvement only if they are significant.
 Important rules about the diff format:
 - Lines that begin with "-" are lines that have been **removed** in this Pull Request.
